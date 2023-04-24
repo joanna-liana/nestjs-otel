@@ -7,7 +7,7 @@ import {
   Param,
   Delete,
 } from '@nestjs/common';
-import { ArticlesService } from './articles.service';
+import { ArticlesService } from '../articles.service';
 import { CreateArticleDto } from './dto/requests/create-article.dto';
 import { UpdateArticleDto } from './dto/requests/update-article.dto';
 import { ApiCreatedResponse, ApiOkResponse, ApiTags } from '@nestjs/swagger';
