@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 
-export class CreateArticleDto {
+export class CreateDraftDto {
   @ApiProperty()
   title: string;
 
@@ -9,7 +9,4 @@ export class CreateArticleDto {
 
   @ApiProperty()
   body: string;
-
-  @ApiProperty({ required: false, default: false })
-  published?: boolean = false;
 }

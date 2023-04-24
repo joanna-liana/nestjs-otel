@@ -1,14 +1,22 @@
 import { Injectable } from '@nestjs/common';
-import { CreateArticleDto } from './dto/requests/create-article.dto';
-import { UpdateArticleDto } from './dto/requests/update-article.dto';
+import { CreateDraftDto } from './api/dto/requests/create-draft.dto';
+import { UpdateArticleDto } from './api/dto/requests/update-article.dto';
 import { PrismaService } from '../prisma/prisma.service';
+import { ArticleMapper } from './domain/ArticleMapper';
+import { Article } from './domain/Article';
 
 @Injectable()
 export class ArticlesService {
   constructor(private readonly prisma: PrismaService) {}
 
-  create(createArticleDto: CreateArticleDto) {
-    return this.prisma.article.create({ data: createArticleDto });
+  async addDraft(createDraftDto: CreateDraftDto) {
+    const draft = Article.createDraft(createDraftDto);
+
+    const createdDraft = await this.prisma.article.create({
+      data: draft.props,
+    });
+
+    return ArticleMapper.fromPersistence(createdDraft);
   }
 
   findAll() {
