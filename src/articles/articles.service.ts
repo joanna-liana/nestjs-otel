@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateDraftDto } from './api/dto/requests/create-draft.dto';
 import { UpdateArticleDto } from './api/dto/requests/update-article.dto';
 import { PrismaService } from '../prisma/prisma.service';
@@ -17,6 +17,25 @@ export class ArticlesService {
     });
 
     return ArticleMapper.fromPersistence(createdDraft);
+  }
+
+  async publish(draftId: number) {
+    const draftInDb = await this.findOne(draftId);
+
+    if (!draftInDb) {
+      throw new NotFoundException({ draftId });
+    }
+
+    const draft = ArticleMapper.fromPersistence(draftInDb);
+
+    draft.publish();
+
+    const publishedDraft = await this.prisma.article.update({
+      where: { id: draftId },
+      data: draft.props,
+    });
+
+    return ArticleMapper.fromPersistence(publishedDraft);
   }
 
   findAll() {

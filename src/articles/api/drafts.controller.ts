@@ -1,8 +1,9 @@
-import { Controller, Post, Body } from '@nestjs/common';
+import { Controller, Post, Body, Param } from '@nestjs/common';
 import { ArticlesService } from '../articles.service';
 import { CreateDraftDto } from './dto/requests/create-draft.dto';
 import { ApiCreatedResponse, ApiTags } from '@nestjs/swagger';
 import { DraftDto } from './dto/responses/draft.dto';
+import { ArticleDto } from './dto/responses/article.dto';
 
 @Controller('drafts')
 @ApiTags('drafts')
@@ -17,13 +18,27 @@ export class DraftsController {
     const draftId = createdDraft.props.id;
 
     return {
-      data: createdDraft,
+      data: DraftDto.from(createdDraft),
       _links: {
         self: `/drafts/${draftId}`,
         all: '/drafts/',
         ...(createdDraft.canBePublished && {
           publish: `/drafts/${draftId}/publish`,
         }),
+      },
+    };
+  }
+
+  @Post('/:draftId/publish')
+  @ApiCreatedResponse({ type: ArticleDto })
+  async publish(@Param() draftId: number) {
+    const publishedArticle = await this.articlesService.publish(draftId);
+
+    return {
+      data: ArticleDto.from(publishedArticle),
+      _links: {
+        self: `/articles/${draftId}`,
+        all: '/articles/',
       },
     };
   }

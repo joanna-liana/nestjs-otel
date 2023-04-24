@@ -23,6 +23,16 @@ export class Article {
     return !!this.props.title.length && !!this.props.body.length;
   }
 
+  publish() {
+    if (!this.canBePublished) {
+      throw new Error(
+        `Article ${this.props.id} cannot be published in the current state`,
+      );
+    }
+
+    this.props.published = true;
+  }
+
   static createDraft(props: DraftArticleProps): Article {
     return new Article({
       ...props,

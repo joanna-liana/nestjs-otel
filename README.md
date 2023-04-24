@@ -36,8 +36,8 @@ $ yarn run test:cov
 
 ## TODO
 Expose a HATEOAS REST API - inspired by [Julien Topçu's Crafting Domain-Driven Designed REST APIs talk](https://www.youtube.com/watch?v=x3Bf25altb4) and [repo](https://gitlab.com/crafts-records/columbiad-express)
-- [ ] start with creating an aritcle draft - `POST /drafts` (include a `self` link)
-- [ ] allow for publishing the draft if both title and description have content - `POST /drafts/:draftId/publish` (include a `self` link)
+- [x] start with creating an aritcle draft - `POST /drafts` (include a `self` link)
+- [x] allow for publishing the draft if both title and description have content - `POST /drafts/:draftId/publish` (include a `self` link)
 - [ ] fetch published articles - `GET /articles`
 - [ ] fetch a selected published article - `GET /articles/:articleId`. Links:
   - [ ] self
