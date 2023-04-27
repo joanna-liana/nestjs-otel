@@ -2,8 +2,9 @@ import { Controller, Post, Body, Param } from '@nestjs/common';
 import { ArticlesService } from '../articles.service';
 import { CreateDraftDto } from './dto/requests/create-draft.dto';
 import { ApiCreatedResponse, ApiTags } from '@nestjs/swagger';
-import { DraftDto } from './dto/responses/draft.dto';
-import { ArticleDto } from './dto/responses/article.dto';
+import { DraftDto } from './dto/responses/data/draft.dto';
+import { ArticleDto } from './dto/responses/data/article.dto';
+import { CreateDraftResponseDto } from './dto/responses/createDraftResponseDto';
 
 @Controller('drafts')
 @ApiTags('drafts')
@@ -11,7 +12,7 @@ export class DraftsController {
   constructor(private readonly articlesService: ArticlesService) {}
 
   @Post()
-  @ApiCreatedResponse({ type: DraftDto })
+  @ApiCreatedResponse({ type: CreateDraftResponseDto })
   async create(@Body() createDraftDto: CreateDraftDto) {
     const createdDraft = await this.articlesService.addDraft(createDraftDto);
 

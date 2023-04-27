@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { Article } from '../../../domain/Article';
+import { Article } from '../../../../domain/Article';
 
-export class DraftDto {
+export class ArticleDto {
   @ApiProperty()
   id: number;
 
@@ -14,8 +14,8 @@ export class DraftDto {
   @ApiProperty()
   body: string;
 
-  @ApiProperty({ example: false })
-  published: false;
+  @ApiProperty({ example: true })
+  published: true;
 
   @ApiProperty()
   createdAt: Date;
@@ -24,13 +24,13 @@ export class DraftDto {
   updatedAt: Date;
 
   static from(article: Article) {
-    const dto = new DraftDto();
+    const dto = new ArticleDto();
 
     dto.id = article.props.id;
     dto.body = article.props.body;
     dto.createdAt = article.props.createdAt;
     dto.description = article.props.description;
-    dto.published = article.props.published as false;
+    dto.published = article.props.published as true;
     dto.title = article.props.title;
     dto.updatedAt = article.props.updatedAt;
 
