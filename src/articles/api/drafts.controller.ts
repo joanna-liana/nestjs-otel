@@ -5,6 +5,7 @@ import { ApiCreatedResponse, ApiTags } from '@nestjs/swagger';
 import { DraftDto } from './dto/responses/data/draft.dto';
 import { ArticleDto } from './dto/responses/data/article.dto';
 import { CreateDraftResponseDto } from './dto/responses/createDraftResponseDto';
+import { HttpMethod } from 'src/articles/api/HttpMethod';
 
 @Controller('drafts')
 @ApiTags('drafts')
@@ -13,7 +14,9 @@ export class DraftsController {
 
   @Post()
   @ApiCreatedResponse({ type: CreateDraftResponseDto })
-  async create(@Body() createDraftDto: CreateDraftDto) {
+  async create(
+    @Body() createDraftDto: CreateDraftDto,
+  ): Promise<CreateDraftResponseDto> {
     const createdDraft = await this.articlesService.addDraft(createDraftDto);
 
     const draftId = createdDraft.props.id;
@@ -21,10 +24,17 @@ export class DraftsController {
     return {
       data: DraftDto.from(createdDraft),
       _links: {
-        self: `/drafts/${draftId}`,
-        all: '/drafts/',
+        self: {
+          href: `/drafts/${draftId}`,
+        },
+        all: {
+          href: '/drafts/',
+        },
         ...(createdDraft.canBePublished && {
-          publish: `/drafts/${draftId}/publish`,
+          publish: {
+            href: `/drafts/${draftId}/publish`,
+            method: HttpMethod.POST,
+          },
         }),
       },
     };
