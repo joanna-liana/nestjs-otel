@@ -1,10 +1,14 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { INestApplication } from '@nestjs/common';
 import * as request from 'supertest';
+import jestOpenAPI from 'jest-openapi';
 import { AppModule } from './../src/app.module';
+import { join } from 'path';
 
 describe('AppController (e2e)', () => {
   let app: INestApplication;
+
+  jestOpenAPI(join(__dirname, '../api.json'));
 
   beforeEach(async () => {
     const moduleFixture: TestingModule = await Test.createTestingModule({
@@ -15,10 +19,34 @@ describe('AppController (e2e)', () => {
     await app.init();
   });
 
-  it('/ (GET)', () => {
-    return request(app.getHttpServer())
-      .get('/')
-      .expect(200)
-      .expect('Hello World!');
+  it('POST /drafts', async () => {
+    const res = await request(app.getHttpServer())
+      .post('/drafts')
+      .send({
+        title: 'Test article ' + Date.now(),
+        body: 'Some body',
+      });
+
+    expect(res.status).toEqual(201);
+    expect(res).toSatisfyApiSpec();
+  });
+
+  it('POST /drafts/:draftId/publish', async () => {
+    // given
+    const createdDraftRes = await request(app.getHttpServer())
+      .post('/drafts')
+      .send({
+        title: 'Test article ' + Date.now(),
+        body: 'Some body',
+      });
+
+    //when
+    const publishedDraftRes = await request(app.getHttpServer()).post(
+      createdDraftRes.body._links.publish.href,
+    );
+
+    // then
+    expect(publishedDraftRes.status).toEqual(201);
+    expect(publishedDraftRes).toSatisfyApiSpec();
   });
 });

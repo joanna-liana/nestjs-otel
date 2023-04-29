@@ -1,4 +1,4 @@
-import { DraftDto } from 'src/articles/api/dto/responses/data/draft.dto';
+import { DraftDto } from './data/draft.dto';
 import { HateoasDto, IHateoasDto } from './hateoas.dto';
 import { ApiProperty } from '@nestjs/swagger';
 

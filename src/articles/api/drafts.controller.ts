@@ -5,8 +5,8 @@ import { ApiCreatedResponse, ApiTags } from '@nestjs/swagger';
 import { DraftDto } from './dto/responses/data/draft.dto';
 import { ArticleDto } from './dto/responses/data/article.dto';
 import { CreateDraftResponseDto } from './dto/responses/createDraftResponseDto';
-import { PublishDraftResponseDto } from 'src/articles/api/dto/responses/publishDraftResponseDto';
-import { HttpMethod } from 'src/articles/api/HttpMethod';
+import { PublishDraftResponseDto } from './dto/responses/publishDraftResponseDto';
+import { HttpMethod } from './HttpMethod';
 
 @Controller('drafts')
 @ApiTags('drafts')
