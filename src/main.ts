@@ -1,3 +1,5 @@
+// IMPORTANT: this needs to be imported first
+import { otelSDK } from './tracing';
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
@@ -19,6 +21,9 @@ function setUpSwagger(app: INestApplication) {
 }
 
 async function bootstrap() {
+  // IMPORTANT: the OpenTelemetry SDK needs to start before the Nest app
+  otelSDK.start();
+
   const app = await NestFactory.create(AppModule);
 
   setUpSwagger(app);
