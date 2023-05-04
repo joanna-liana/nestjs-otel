@@ -49,4 +49,27 @@ describe('AppController (e2e)', () => {
     expect(publishedDraftRes.status).toEqual(201);
     expect(publishedDraftRes).toSatisfyApiSpec();
   });
+
+  it('GET /articles/:articleId', async () => {
+    // given
+    const createdDraftRes = await request(app.getHttpServer())
+      .post('/drafts')
+      .send({
+        title: 'Test article ' + Date.now(),
+        body: 'Some body',
+      });
+
+    const publishedDraftRes = await request(app.getHttpServer()).post(
+      createdDraftRes.body._links.publish.href,
+    );
+
+    // when
+    const articleRes = await request(app.getHttpServer()).get(
+      publishedDraftRes.body._links.self.href,
+    );
+
+    // then
+    expect(articleRes.status).toEqual(200);
+    expect(articleRes).toSatisfyApiSpec();
+  });
 });
