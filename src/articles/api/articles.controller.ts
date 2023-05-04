@@ -14,7 +14,7 @@ export class ArticlesController {
   async getOne(
     @Param('articleId') articleId: number,
   ): Promise<SingleArticleResponseDto> {
-    const article = await this.articlesService.findOne(+articleId);
+    const article = await this.articlesService.findOneArticle(+articleId);
 
     return {
       data: ArticleDto.from(article),

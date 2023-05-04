@@ -20,11 +20,15 @@ export class ArticlesService {
   }
 
   async publish(draftId: number) {
-    const draft = await this.findOne(draftId);
+    const draftInDb = await this.prisma.article.findUnique({
+      where: { id: draftId },
+    });
 
-    if (!draft) {
+    if (!draftInDb) {
       throw new NotFoundException({ draftId });
     }
+
+    const draft = ArticleMapper.fromPersistence(draftInDb);
 
     draft.publish();
 
@@ -44,8 +48,14 @@ export class ArticlesService {
     return this.prisma.article.findMany({ where: { published: false } });
   }
 
-  async findOne(id: number) {
-    const article = await this.prisma.article.findUnique({ where: { id } });
+  async findOneArticle(id: number) {
+    const article = await this.prisma.article.findFirst({
+      where: { id, published: true },
+    });
+
+    if (!article) {
+      throw new NotFoundException();
+    }
 
     return ArticleMapper.fromPersistence(article);
   }
