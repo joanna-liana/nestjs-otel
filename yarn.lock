@@ -934,6 +934,14 @@
     "@opentelemetry/semantic-conventions" "1.12.0"
     semver "^7.3.5"
 
+"@opentelemetry/instrumentation-nestjs-core@^0.32.3":
+  version "0.32.3"
+  resolved "https://registry.yarnpkg.com/@opentelemetry/instrumentation-nestjs-core/-/instrumentation-nestjs-core-0.32.3.tgz#c1e5573d4f37f1e4e0e51520c47253a34c79d564"
+  integrity sha512-6rfI0+k/UJeabaJM172kuabTTKcthz5P3WPp0PXETvZ7uQwauZlxyrnIwoU6iE3ugTsFl1ep4VZuPwNAEIPKnQ==
+  dependencies:
+    "@opentelemetry/instrumentation" "^0.38.0"
+    "@opentelemetry/semantic-conventions" "^1.0.0"
+
 "@opentelemetry/instrumentation@0.38.0", "@opentelemetry/instrumentation@^0.38.0":
   version "0.38.0"
   resolved "https://registry.yarnpkg.com/@opentelemetry/instrumentation/-/instrumentation-0.38.0.tgz#e97c6d4ea699006ec2541fd83b26a10f0edaada4"
