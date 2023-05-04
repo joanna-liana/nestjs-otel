@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 
 export class CreateDraftDto {
-  @ApiProperty()
+  @ApiProperty({ example: `Unique title ${Date.now()}` })
   title: string;
 
   @ApiProperty({ required: false })
