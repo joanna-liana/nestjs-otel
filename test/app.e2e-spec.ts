@@ -72,4 +72,22 @@ describe('AppController (e2e)', () => {
     expect(articleRes.status).toEqual(200);
     expect(articleRes).toSatisfyApiSpec();
   });
+
+  it('GET /articles/:articleId when trying to fetch a draft', async () => {
+    // given
+    const createdDraftRes = await request(app.getHttpServer())
+      .post('/drafts')
+      .send({
+        title: 'Test article ' + Date.now(),
+        body: 'Some body',
+      });
+
+    // when
+    const articleRes = await request(app.getHttpServer()).get(
+      `/articles/${createdDraftRes.body.data.id}`,
+    );
+
+    // then
+    expect(articleRes.status).toEqual(404);
+  });
 });
